@@ -1,0 +1,101 @@
+[
+  {
+    "id": "tetris",
+    "title": "Tetris",
+    "description": "The classic block-stacking puzzle game.",
+    "thumbnail": "https://picsum.photos/seed/tetris/400/300",
+    "iframeUrl": "https://tetris.com/play-tetris",
+    "category": "Classic",
+    "tags": ["blocks", "retro"]
+  },
+  {
+    "id": "doom",
+    "title": "DOOM (Shareware)",
+    "description": "The grandfather of FPS games.",
+    "thumbnail": "https://picsum.photos/seed/doom/400/300",
+    "iframeUrl": "https://js-dos.com/games/doom.exe.html",
+    "category": "Action",
+    "tags": ["fps", "retro", "shooter"]
+  },
+  {
+    "id": "flappybird",
+    "title": "Flappy Bird",
+    "description": "Flap your wings to fly through the pipes.",
+    "thumbnail": "https://picsum.photos/seed/flappy/400/300",
+    "iframeUrl": "https://flappybird.io/",
+    "category": "Arcade",
+    "tags": ["challenging", "one-button"]
+  },
+  {
+    "id": "pacman",
+    "title": "Pac-Man",
+    "description": "Navigate the maze, eat pellets, and avoid the ghosts.",
+    "thumbnail": "https://picsum.photos/seed/pacman/400/300",
+    "iframeUrl": "https://macek.github.io/google_pacman/",
+    "category": "Classic",
+    "tags": ["retro", "maze", "arcade"]
+  },
+  {
+    "id": "spaceinvaders",
+    "title": "Space Invaders",
+    "description": "Defend the earth from waves of descending alien invaders.",
+    "thumbnail": "https://picsum.photos/seed/space/400/300",
+    "iframeUrl": "https://freeinvaders.org/",
+    "category": "Arcade",
+    "tags": ["retro", "space", "shooting"]
+  },
+  {
+    "id": "slope",
+    "title": "Slope",
+    "description": "A fast-paced 3D ball-rolling game. Don't fall off!",
+    "thumbnail": "https://picsum.photos/seed/slope/400/300",
+    "iframeUrl": "https://slopegame.io/",
+    "category": "Arcade",
+    "tags": ["fast-paced", "3d", "physics"]
+  },
+  {
+    "id": "minecraft",
+    "title": "Minecraft Classic",
+    "description": "Build your own world in the classic web version of Minecraft.",
+    "thumbnail": "https://picsum.photos/seed/minecraft/400/300",
+    "iframeUrl": "https://classic.minecraft.net/",
+    "category": "Strategy",
+    "tags": ["sandbox", "building", "blocks"]
+  },
+  {
+    "id": "doodlejump",
+    "title": "Doodle Jump",
+    "description": "Jump from platform to platform in this addictive vertical scroller.",
+    "thumbnail": "https://picsum.photos/seed/jump/400/300",
+    "iframeUrl": "https://html5.gamedistribution.com/582bfed44a0b4d4094186595568f186c/",
+    "category": "Arcade",
+    "tags": ["jumping", "casual", "endless"]
+  },
+  {
+    "id": "crossyroad",
+    "title": "Crossy Road",
+    "description": "Why did the chicken cross the road? Find out in this endless hopper.",
+    "thumbnail": "https://picsum.photos/seed/crossy/400/300",
+    "iframeUrl": "https://crossy-road.io/",
+    "category": "Arcade",
+    "tags": ["voxels", "casual", "cross-the-road"]
+  },
+  {
+    "id": "otonic",
+    "title": "Otonic (never will get blocked)",
+    "description": "A stable and unblocked gaming experience for the ultimate player.",
+    "thumbnail": "https://picsum.photos/seed/otonic/400/300",
+    "iframeUrl": "https://signup.clever.com.codeland.se/",
+    "category": "Arcade",
+    "tags": ["unblocked", "web", "games"]
+  },
+  {
+    "id": "geometrydash",
+    "title": "Geometry Dash (not real one)",
+    "description": "Jump and fly your way through danger in this rhythm-based action platformer!",
+    "thumbnail": "https://picsum.photos/seed/geometry/400/300",
+    "iframeUrl": "https://geometrygames.io/",
+    "category": "Action",
+    "tags": ["rhythm", "platformer", "challenging"]
+  }
+]
