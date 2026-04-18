@@ -57,10 +57,10 @@ export default function App() {
     });
   }, [searchQuery, selectedCategory]);
 
-  const toggleFullscreen = () => {
+  const toggleDisplay = () => {
     try {
-      const iframe = document.querySelector('iframe');
-      if (iframe?.requestFullscreen) iframe.requestFullscreen();
+      const frame = document.querySelector('iframe');
+      if (frame?.requestFullscreen) frame.requestFullscreen();
     } catch (e) {}
   };
 
@@ -94,21 +94,21 @@ export default function App() {
             </header>
 
             <article className="prose prose-slate max-w-none space-y-8 text-lg leading-relaxed text-slate-600">
-              <p>The study of calculus provides the fundamental tools required for understanding the change and motion of complex physical systems. By linking differentiation and integration, the fundamental theorem allows for the computation of precisely modeled outcomes across various scientific disciplines.</p>
+              <p>This repository serves as a centralized index for historical research data and theoretical frameworks. Participation in these modules is reserved for students currently enrolled in advanced data analytics cycles.</p>
 
               <div className="p-8 border border-slate-100 rounded-lg bg-slate-50/50 font-mono text-sm space-y-6 text-slate-700">
                 <div className="space-y-2">
-                  <span className="text-slate-400 text-xs block mb-1 font-sans font-bold uppercase tracking-wider">// Fundamental Identity</span>
-                  <div className="pl-4">{"∫ _{a} ^{b} f(x) dx = F(b) - F(a)"}</div>
+                  <span className="text-slate-400 text-xs block mb-1 font-sans font-bold uppercase tracking-wider">// Indexing Key</span>
+                  <div className="pl-4">{"DataID_044_819_581"}</div>
                 </div>
                 <div className="h-px bg-slate-200/50" />
                 <div className="space-y-2">
-                  <span className="text-slate-400 text-xs block mb-1 font-sans font-bold uppercase tracking-wider">// Chain Rule Property</span>
-                  <div className="pl-4">{"d/dx [f(g(x))] = f'(g(x))g'(x)"}</div>
+                  <span className="text-slate-400 text-xs block mb-1 font-sans font-bold uppercase tracking-wider">// System Validation</span>
+                  <div className="pl-4">{"AUTH_LEVEL: RESEARCH_FACULTY"}</div>
                 </div>
               </div>
 
-              <p>Modern applications of these principles extend into discrete computational modeling, where differential equations assist in the prediction of data trends and economic fluctuations.</p>
+              <p>Users must authenticate via the Researcher access protocol to view restricted archival indices.</p>
             </article>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-8">
@@ -288,7 +288,7 @@ export default function App() {
                   </motion.div>
                 ) : (
                   <motion.div
-                    key="player"
+                    key="viewer"
                     initial={{ opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.98 }}
@@ -309,7 +309,7 @@ export default function App() {
                       </div>
                       <div className="flex items-center gap-3">
                         <button 
-                          onClick={toggleFullscreen}
+                          onClick={toggleDisplay}
                           className="p-3 bg-white border border-slate-100 rounded-xl text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-all shadow-xs"
                           title="Fullscreen"
                         >
@@ -324,12 +324,12 @@ export default function App() {
                       </div>
                     </header>
 
-                    <div className="aspect-video bg-slate-900 rounded-3xl overflow-hidden shadow-2xl relative ring-8 ring-white">
+                    <div className="aspect-[16/9] bg-slate-900 rounded-3xl overflow-hidden shadow-2xl relative ring-8 ring-white">
                       <iframe 
                         src={activeModule.iframeUrl} 
                         className="w-full h-full border-none bg-white"
                         allowFullScreen
-                        allow="autoplay; fullscreen; keyboard-attribute; gyroscope; accelerometer; mid; payment"
+                        allow="fullscreen; keyboard-attribute; gyroscope; accelerometer; mid; payment"
                         sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-presentation"
                         title={activeModule.title}
                       />

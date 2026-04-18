@@ -6,7 +6,7 @@ import {defineConfig, loadEnv} from 'vite';
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
-    base: '/MathMathMathAllDay1.org/', // Required for GitHub Pages subdirectory deployment
+    base: '/',
     build: {
       outDir: 'dist',
       assetsDir: 'assets',
