@@ -6,7 +6,8 @@ export const archiveData = [
     thumbnail: 'https://picsum.photos/seed/calculus/400/300?grayscale',
     iframeUrl: 'https://www.roblox.com',
     category: 'Technical',
-    tags: ['calculus', 'modeling', 'spatial']
+    tags: ['calculus', 'modeling', 'spatial'],
+    forceNewWindow: true
   },
   {
     id: 'gd1',
