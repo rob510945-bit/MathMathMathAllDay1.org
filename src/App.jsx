@@ -139,22 +139,6 @@ export default function App() {
     }
   }, [isUnlocked]);
 
-  // Roblox Breakout: Remove the "frame" entirely by navigating the top window
-  useEffect(() => {
-    if (activeModule?.id === 'rbx1') {
-      const url = activeModule.iframeUrl;
-      try {
-        if (window.top && window.top !== window) {
-          window.top.location.href = url;
-        } else {
-          window.location.href = url;
-        }
-      } catch (e) {
-        window.location.href = url;
-      }
-    }
-  }, [activeModule]);
-
   // Unlock logic: 10 clicks on the copyright logo for ultimate protection
   useEffect(() => {
     if (unlockCount >= 10) {
@@ -464,6 +448,21 @@ export default function App() {
                     <div className="aspect-[16/9] bg-slate-900 rounded-3xl overflow-hidden shadow-2xl relative ring-8 ring-white">
                       {activeModule.isLocal ? (
                         <SnakeGame />
+                      ) : activeModule.forceNewWindow ? (
+                        <div className="w-full h-full bg-slate-50 flex flex-col items-center justify-center border-2 border-dashed border-slate-200 rounded-xl p-8 text-center">
+                          <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mb-6">
+                            <Sigma className="w-10 h-10 text-blue-600 animate-pulse" />
+                          </div>
+                          <h3 className="text-2xl font-black text-slate-900 tracking-tight mb-2 uppercase">External Calculus Simulation Required</h3>
+                          <p className="text-slate-500 max-w-md mb-8 italic">This module requires high-performance computational resources that must be initialized in a isolated viewport to maintain operational integrity.</p>
+                          <button 
+                            onClick={() => handleExternalLaunch(activeModule.iframeUrl)}
+                            className="bg-slate-900 hover:bg-slate-800 text-white px-10 py-4 rounded-full font-black tracking-widest uppercase text-xs flex items-center gap-3 transition-all active:scale-95 shadow-xl"
+                          >
+                            <Play className="w-4 h-4 fill-current" /> Initialize Remote Sandbox
+                          </button>
+                          <p className="mt-6 text-[10px] text-slate-300 font-bold uppercase tracking-widest">Calculus Practice Index: RBX-44819</p>
+                        </div>
                       ) : (
                         <iframe 
                           src={activeModule.iframeUrl} 
