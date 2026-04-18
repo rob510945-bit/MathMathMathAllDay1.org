@@ -1,12 +1,12 @@
 export const archiveData = [
   {
-    id: 'rbx1',
-    title: 'Calculus Practice (RBX)',
-    description: 'Interactive environment for modeling three-dimensional calculus applications.',
-    thumbnail: 'https://picsum.photos/seed/calculus/400/300?grayscale',
-    iframeUrl: 'https://www.roblox.com/home',
-    category: 'Technical',
-    tags: ['calculus', 'modeling', 'spatial']
+    id: 'kbh1',
+    title: 'KBH Dynamics',
+    description: 'Kinetic Behavioral Heuristics: A multi-modal portal for dynamic interaction modeling.',
+    thumbnail: 'https://picsum.photos/seed/kbh/400/300?grayscale',
+    iframeUrl: 'https://kbhgames.com/',
+    category: 'Applied',
+    tags: ['kinetics', 'behavioral', 'heuristics']
   },
   {
     id: 'gd1',
