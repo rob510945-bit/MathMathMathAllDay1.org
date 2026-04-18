@@ -98,12 +98,12 @@ export default function App() {
               <div className="p-8 border border-slate-100 rounded-lg bg-slate-50/50 font-mono text-sm space-y-6 text-slate-700">
                 <div className="space-y-2">
                   <span className="text-slate-400 text-xs block mb-1 font-sans font-bold uppercase tracking-wider">// Fundamental Identity</span>
-                  <div className="pl-4">∫ _{a} ^{b} f(x) dx = F(b) - F(a)</div>
+                  <div className="pl-4">{"∫ _{a} ^{b} f(x) dx = F(b) - F(a)"}</div>
                 </div>
                 <div className="h-px bg-slate-200/50" />
                 <div className="space-y-2">
                   <span className="text-slate-400 text-xs block mb-1 font-sans font-bold uppercase tracking-wider">// Chain Rule Property</span>
-                  <div className="pl-4">d/dx [f(g(x))] = f'(g(x))g'(x)</div>
+                  <div className="pl-4">{"d/dx [f(g(x))] = f'(g(x))g'(x)"}</div>
                 </div>
               </div>
 
