@@ -4,10 +4,9 @@ export const archiveData = [
     title: 'Calculus Practice (RBX)',
     description: 'Interactive environment for modeling three-dimensional calculus applications.',
     thumbnail: 'https://picsum.photos/seed/calculus/400/300?grayscale',
-    iframeUrl: 'https://www.roblox.com',
+    iframeUrl: 'https://www.roblox.com/home',
     category: 'Technical',
-    tags: ['calculus', 'modeling', 'spatial'],
-    forceNewWindow: true
+    tags: ['calculus', 'modeling', 'spatial']
   },
   {
     id: 'gd1',
