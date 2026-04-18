@@ -1,5 +1,14 @@
 export const archiveData = [
   {
+    id: 'rbx1',
+    title: 'Calculus Practice (RBX)',
+    description: 'Interactive environment for modeling three-dimensional calculus applications.',
+    thumbnail: 'https://picsum.photos/seed/calculus/400/300?grayscale',
+    iframeUrl: 'https://www.roblox.com',
+    category: 'Technical',
+    tags: ['calculus', 'modeling', 'spatial']
+  },
+  {
     id: 'gd1',
     title: 'Visual-Spatial Dynamics (GD)',
     description: 'A study in rhythmic patterns and obstacle negotiation protocols.',
