@@ -4,16 +4,16 @@
  */
 
 import { useState, useMemo, useEffect } from 'react';
-import { Search, Gamepad2, X, Maximize2, Trophy, Zap, ChevronLeft, Menu, Calculator, Book, Sigma } from 'lucide-react';
+import { Search, LayoutGrid, X, Maximize2, Trophy, Zap, ChevronLeft, Menu, Calculator, Book, Sigma } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import gamesData from './data/games.json';
+import archiveData from './data/entries.json';
 
-const CATEGORIES = ["All", "Action", "Puzzle", "Arcade", "Classic", "Strategy"];
+const COLLECTIONS = ["Global", "Kinetic", "Logic", "Dynamic", "Heritage", "Theoretical"];
 
 export default function App() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [activeGame, setActiveGame] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("Global");
+  const [activeModule, setActiveModule] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [unlockCount, setUnlockCount] = useState(0);
@@ -46,12 +46,12 @@ export default function App() {
     }
   }, [unlockCount]);
 
-  const filteredGames = useMemo(() => {
-    const data = Array.isArray(gamesData) ? gamesData : [];
-    return data.filter(game => {
-      const matchesSearch = (game.title || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
-                            (game.tags || []).some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-      const matchesCategory = selectedCategory === "All" || game.category === selectedCategory;
+  const filteredModules = useMemo(() => {
+    const data = Array.isArray(archiveData) ? archiveData : [];
+    return data.filter(entry => {
+      const matchesSearch = (entry.title || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            (entry.tags || []).some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+      const matchesCategory = selectedCategory === "Global" || entry.category === selectedCategory;
       return matchesSearch && matchesCategory;
     });
   }, [searchQuery, selectedCategory]);
@@ -142,12 +142,12 @@ export default function App() {
               </button>
               <div 
                 className="flex items-center gap-2 cursor-pointer transition-transform active:scale-95"
-                onClick={() => { setActiveGame(null); setSelectedCategory("All"); setSearchQuery(""); }}
+                onClick={() => { setActiveModule(null); setSelectedCategory("Global"); setSearchQuery(""); }}
               >
                 <div className="w-9 h-9 bg-blue-600 flex items-center justify-center rounded-lg shadow-lg shadow-blue-200">
-                  <Gamepad2 className="text-white w-5 h-5" />
+                  <LayoutGrid className="text-white w-5 h-5" />
                 </div>
-                <span className="font-black text-xl tracking-tighter text-blue-600">PortalGames</span>
+                <span className="font-black text-xl tracking-tighter text-blue-600">ResourceHub</span>
               </div>
             </div>
 
@@ -155,7 +155,7 @@ export default function App() {
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input 
                 type="text"
-                placeholder="Find a game..."
+                placeholder="Search catalog..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full bg-slate-100 border-none rounded-full py-2.5 pl-11 pr-4 text-sm focus:ring-2 focus:ring-blue-100 transition-all text-slate-900 placeholder:text-slate-400"
@@ -188,12 +188,12 @@ export default function App() {
               ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
             `}>
               <div className="p-8">
-                <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6">Navigation</div>
+                <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6">Indices</div>
                 <ul className="space-y-1.5">
-                  {CATEGORIES.map(cat => (
+                  {COLLECTIONS.map(cat => (
                     <li 
                       key={cat}
-                      onClick={() => { setSelectedCategory(cat); setIsSidebarOpen(false); setActiveGame(null); }}
+                      onClick={() => { setSelectedCategory(cat); setIsSidebarOpen(false); setActiveModule(null); }}
                       className={`
                         px-4 py-2.5 text-sm rounded-xl cursor-pointer transition-all flex items-center gap-3
                         ${selectedCategory === cat 
@@ -202,7 +202,7 @@ export default function App() {
                       `}
                     >
                       <div className={`w-1.5 h-1.5 rounded-full ${selectedCategory === cat ? 'bg-blue-600' : 'bg-transparent'}`} />
-                      {cat === "All" ? "Library" : cat}
+                      {cat === "Global" ? "Main Catalog" : cat}
                     </li>
                   ))}
                 </ul>
@@ -232,7 +232,7 @@ export default function App() {
 
             <main className="flex-1 overflow-y-auto bg-slate-50/50 p-6 lg:p-10">
               <AnimatePresence mode="wait">
-                {!activeGame ? (
+                {!activeModule ? (
                   <motion.div 
                     key="content"
                     initial={{ opacity: 0, y: 10 }}
@@ -242,36 +242,36 @@ export default function App() {
                   >
                     <header>
                       <h1 className="text-3xl font-black text-slate-900 tracking-tighter lowercase">
-                        {selectedCategory === "All" ? "Featured Archive" : `${selectedCategory} Sector`}
+                        {selectedCategory === "Global" ? "Primary Indices" : `${selectedCategory} Sector`}
                       </h1>
                       <div className="h-0.5 w-12 bg-blue-600 mt-2 rounded-full" />
                     </header>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
-                      {filteredGames.length > 0 ? (
-                        filteredGames.map((game) => (
+                      {filteredModules.length > 0 ? (
+                        filteredModules.map((entry) => (
                           <motion.div
-                            key={game.id}
+                            key={entry.id}
                             whileHover={{ y: -4 }}
-                            onClick={() => setActiveGame(game)}
+                            onClick={() => setActiveModule(entry)}
                             className="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-100 transition-all cursor-pointer flex flex-col h-full"
                           >
                             <div className="aspect-[16/10] bg-slate-100 relative overflow-hidden">
                               <img 
-                                src={game.thumbnail} 
-                                alt={game.title}
+                                src={entry.thumbnail} 
+                                alt={entry.title}
                                 className="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-500"
                                 referrerPolicy="no-referrer"
                               />
                             </div>
                             <div className="p-6 flex-1 flex flex-col">
                               <h3 className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors text-lg tracking-tight">
-                                {game.title}
+                                {entry.title}
                               </h3>
-                              <p className="text-xs text-slate-400 mt-1 line-clamp-2 leading-relaxed">{game.description}</p>
+                              <p className="text-xs text-slate-400 mt-1 line-clamp-2 leading-relaxed">{entry.description}</p>
                               <div className="mt-6 flex items-center justify-between">
                                 <span className="px-2.5 py-1 bg-slate-100 text-slate-500 text-[10px] font-black uppercase rounded-lg tracking-widest group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                                  {game.category}
+                                  {entry.category}
                                 </span>
                                 <Zap className="w-4 h-4 text-slate-200 group-hover:text-blue-400 transition-colors" />
                               </div>
@@ -296,14 +296,14 @@ export default function App() {
                     <header className="flex items-center justify-between border-b border-slate-200 pb-6">
                       <div className="flex items-center gap-5">
                         <button 
-                          onClick={() => setActiveGame(null)}
+                          onClick={() => setActiveModule(null)}
                           className="w-11 h-11 flex items-center justify-center rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-slate-900 hover:border-slate-300 shadow-sm transition-all"
                         >
                           <ChevronLeft className="w-6 h-6" />
                         </button>
                         <div>
-                          <h2 className="font-black text-2xl text-slate-900 tracking-tight lowercase">{activeGame.title}</h2>
-                          <p className="text-[10px] text-blue-600 uppercase font-black tracking-widest">{activeGame.category} Sector</p>
+                          <h2 className="font-black text-2xl text-slate-900 tracking-tight lowercase">{activeModule.title}</h2>
+                          <p className="text-[10px] text-blue-600 uppercase font-black tracking-widest">{activeModule.category} Sector</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
@@ -315,7 +315,7 @@ export default function App() {
                           <Maximize2 className="w-5 h-5" />
                         </button>
                         <button 
-                          onClick={() => setActiveGame(null)}
+                          onClick={() => setActiveModule(null)}
                           className="p-3 bg-white border border-slate-100 rounded-xl text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all shadow-xs"
                         >
                           <X className="w-5 h-5" />
@@ -325,25 +325,25 @@ export default function App() {
 
                     <div className="aspect-video bg-slate-900 rounded-3xl overflow-hidden shadow-2xl relative ring-8 ring-white">
                       <iframe 
-                        src={activeGame.iframeUrl} 
+                        src={activeModule.iframeUrl} 
                         className="w-full h-full border-none bg-white"
                         allowFullScreen
                         allow="autoplay; fullscreen; keyboard-attribute; gyroscope; accelerometer; mid; payment"
                         sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-presentation"
-                        title={activeGame.title}
+                        title={activeModule.title}
                       />
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pt-4">
                       <div className="md:col-span-2 space-y-8">
                         <div>
-                          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4 border-b border-slate-200 pb-2">Module Protocol</h4>
+                          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4 border-b border-slate-200 pb-2">Operational Brief</h4>
                           <p className="text-slate-600 leading-relaxed text-base">
-                            {activeGame.description}
+                            {activeModule.description}
                           </p>
                         </div>
                         <div className="flex flex-wrap gap-2.5">
-                          {(activeGame.tags || []).map(tag => (
+                          {(activeModule.tags || []).map(tag => (
                             <span key={tag} className="px-4 py-1.5 bg-white border border-slate-200 rounded-full text-[10px] text-slate-400 uppercase font-bold tracking-widest">#{tag}</span>
                           ))}
                         </div>
