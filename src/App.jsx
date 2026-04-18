@@ -132,25 +132,17 @@ export default function App() {
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [unlockCount, setUnlockCount] = useState(0);
 
-  // Robust session persistence
+  // Reset scroll on unlock
   useEffect(() => {
-    try {
-      const saved = sessionStorage.getItem('system_auth_verified');
-      if (saved === 'true') {
-        setIsUnlocked(true);
-      }
-    } catch (err) {
-      console.warn("sys_err");
+    if (isUnlocked) {
+      window.scrollTo(0, 0);
     }
-  }, []);
+  }, [isUnlocked]);
 
   // Unlock logic: 10 clicks on the copyright logo for ultimate protection
   useEffect(() => {
     if (unlockCount >= 10) {
       setIsUnlocked(true);
-      try {
-        sessionStorage.setItem('system_auth_verified', 'true');
-      } catch (err) {}
     } else if (unlockCount > 0) {
       const timer = setTimeout(() => {
         setUnlockCount(0);
