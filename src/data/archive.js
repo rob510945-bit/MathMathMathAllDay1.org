@@ -1,12 +1,12 @@
 export const archiveData = [
   {
-    id: 'kbh1',
-    title: 'KBH Dynamics',
-    description: 'Kinetic Behavioral Heuristics: A multi-modal portal for dynamic interaction modeling.',
-    thumbnail: 'https://picsum.photos/seed/kbh/400/300?grayscale',
-    iframeUrl: 'https://kbhgames.com/',
+    id: 'fnf1',
+    title: 'Singing Club',
+    description: 'Vocal proficiency and rhythmic syntax assessment module.',
+    thumbnail: 'https://picsum.photos/seed/singing/400/300?grayscale',
+    iframeUrl: 'https://kbhgames.com/game/friday-night-funkin-vs-matt-deluxe',
     category: 'Applied',
-    tags: ['kinetics', 'behavioral', 'heuristics']
+    tags: ['vocal', 'rhythm', 'syntax']
   },
   {
     id: 'gd1',
