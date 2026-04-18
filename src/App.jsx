@@ -3,15 +3,128 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useMemo, useEffect } from 'react';
-import { Search, LayoutGrid, X, Maximize2, Microscope, ArrowRight, ChevronLeft, Menu, Calculator, Book, Sigma } from 'lucide-react';
+import { useState, useMemo, useEffect, useRef } from 'react';
+import { Search, LayoutGrid, X, Maximize2, Microscope, ArrowRight, ChevronLeft, Menu, Calculator, Book, Sigma, Play, RotateCcw } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { getArchiveData } from './data/vault';
+import { archiveData } from './data/archive';
 
-const COLLECTIONS = ["Global", "Kinetic", "Logic", "Dynamic", "Heritage", "Theoretical"];
+const COLLECTIONS = ["Global", "Local", "Applied", "Technical", "Foundational"];
+
+/* MINI-GAME: Snake (Javascript Edition) */
+const SnakeGame = () => {
+  const canvasRef = useRef(null);
+  const [score, setScore] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
+  const [highScore, setHighScore] = useState(0);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let snake = [{ x: 10, y: 10 }];
+    let food = { x: 5, y: 5 };
+    let dx = 0;
+    let dy = 0;
+    let nextDx = 1;
+    let nextDy = 0;
+    const gridSize = 20;
+    const tileCount = 20;
+
+    const handleKeydown = (e) => {
+      if (e.key === 'ArrowUp' && dy === 0) { nextDx = 0; nextDy = -1; }
+      if (e.key === 'ArrowDown' && dy === 0) { nextDx = 0; nextDy = 1; }
+      if (e.key === 'ArrowLeft' && dx === 0) { nextDx = -1; nextDy = 0; }
+      if (e.key === 'ArrowRight' && dx === 0) { nextDx = 1; nextDy = 0; }
+    };
+
+    window.addEventListener('keydown', handleKeydown);
+
+    const gameLoop = setInterval(() => {
+      dx = nextDx;
+      dy = nextDy;
+      const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+
+      // Wall collision
+      if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
+        setGameOver(true);
+        clearInterval(gameLoop);
+        return;
+      }
+
+      // Self collision
+      if (snake.some(segment => segment.x === head.x && segment.y === head.y)) {
+        setGameOver(true);
+        clearInterval(gameLoop);
+        return;
+      }
+
+      snake.unshift(head);
+
+      // Food collision
+      if (head.x === food.x && head.y === food.y) {
+        setScore(s => s + 10);
+        food = {
+          x: Math.floor(Math.random() * tileCount),
+          y: Math.floor(Math.random() * tileCount)
+        };
+      } else {
+        snake.pop();
+      }
+
+      // Draw
+      ctx.fillStyle = '#f8fafc';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#22c55e';
+      snake.forEach((segment, i) => {
+        ctx.globalAlpha = 1 - (i / snake.length) * 0.5;
+        ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize - 2, gridSize - 2);
+      });
+      ctx.globalAlpha = 1;
+
+      ctx.fillStyle = '#ef4444';
+      ctx.fillRect(food.x * gridSize + 4, food.y * gridSize + 4, gridSize - 10, gridSize - 10);
+    }, 100);
+
+    return () => {
+      clearInterval(gameLoop);
+      window.removeEventListener('keydown', handleKeydown);
+    };
+  }, [gameOver]);
+
+  return (
+    <div className="flex flex-col items-center bg-slate-900 absolute inset-0 text-white p-4">
+      <div className="flex justify-between w-full mb-4 px-4">
+        <div className="text-sm font-mono tracking-tighter uppercase opacity-50">Local Protocol: Snake</div>
+        <div className="text-xl font-black">SCORE: {score}</div>
+      </div>
+      
+      <div className="relative bg-slate-800 rounded-lg overflow-hidden border-4 border-slate-700 shadow-2xl">
+        <canvas 
+          ref={canvasRef} 
+          width={400} 
+          height={400} 
+          className="max-w-full aspect-square"
+        />
+        {gameOver && (
+          <div className="absolute inset-0 bg-slate-900/90 flex flex-col items-center justify-center backdrop-blur-sm">
+            <h3 className="text-4xl font-black text-white mb-2 tracking-tighter">SIMULATION ENDED</h3>
+            <p className="text-slate-400 mb-8 font-mono">Final Delta: {score}</p>
+            <button 
+              onClick={() => { setScore(0); setGameOver(false); }}
+              className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-full font-bold flex items-center gap-2 transition-all active:scale-95 shadow-lg"
+            >
+              <RotateCcw className="w-5 h-5" /> REINITIALIZE
+            </button>
+          </div>
+        )}
+      </div>
+      <p className="mt-6 text-slate-500 text-xs font-mono uppercase tracking-widest animate-pulse">Use arrow keys to navigate</p>
+    </div>
+  );
+};
 
 export default function App() {
-  const archiveData = useMemo(() => getArchiveData(), []);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Global");
   const [activeModule, setActiveModule] = useState(null);
@@ -22,27 +135,26 @@ export default function App() {
   // Robust session persistence
   useEffect(() => {
     try {
-      const saved = sessionStorage.getItem('portal_unlocked');
+      const saved = sessionStorage.getItem('system_auth_verified');
       if (saved === 'true') {
         setIsUnlocked(true);
       }
     } catch (err) {
-      console.warn("Storage access failed");
+      console.warn("sys_err");
     }
   }, []);
 
-  // Unlock logic
+  // Unlock logic: 10 clicks on the copyright logo for ultimate protection
   useEffect(() => {
-    if (unlockCount >= 3) {
+    if (unlockCount >= 10) {
       setIsUnlocked(true);
       try {
-        sessionStorage.setItem('portal_unlocked', 'true');
+        sessionStorage.setItem('system_auth_verified', 'true');
       } catch (err) {}
     } else if (unlockCount > 0) {
       const timer = setTimeout(() => {
         setUnlockCount(0);
-        console.log("Unlock sequence timed out");
-      }, 3000); // Increased to 3 seconds for easier entry
+      }, 5000); 
       return () => clearTimeout(timer);
     }
   }, [unlockCount]);
@@ -52,8 +164,11 @@ export default function App() {
     return data.filter(entry => {
       const matchesSearch = (entry.title || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
                             (entry.tags || []).some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-      const matchesCategory = selectedCategory === "Global" || entry.category === selectedCategory;
-      return matchesSearch && matchesCategory;
+      
+      const categoryMatch = selectedCategory === "Global" || 
+                           (entry.category || "").toLowerCase() === selectedCategory.toLowerCase();
+      
+      return matchesSearch && categoryMatch;
     });
   }, [searchQuery, selectedCategory]);
 
@@ -67,67 +182,59 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900 overflow-hidden">
       {!isUnlocked ? (
-        /* CAMOUFLAGE UI: Student Reference Library */
-        <div className="flex-1 flex flex-col bg-white text-slate-800 font-serif overflow-y-auto">
-          <nav className="h-14 border-b border-slate-200 px-6 flex items-center justify-between sticky top-0 bg-white/80 backdrop-blur-md z-50">
-            <div className="flex items-center gap-3 select-none">
-              <div className="w-8 h-8 flex items-center justify-center bg-slate-100 rounded border border-slate-200">
-                <Book className="w-5 h-5 text-slate-400" />
-              </div>
-              <span className="font-bold text-base tracking-tight text-slate-700">Student Digital Archive</span>
-            </div>
-            <div className="flex items-center gap-6">
-              <div className="hidden sm:block text-[10px] font-sans font-bold text-slate-400 uppercase tracking-widest">Repository v4.2.0</div>
-              <button 
-                onClick={() => setUnlockCount(prev => prev + 1)}
-                className="text-[10px] font-sans font-bold text-slate-300 hover:text-slate-500 transition-colors uppercase tracking-[0.2em]"
-              >
-                Researcher Auth
-              </button>
+        /* CAMOUFLAGE UI: Ultra-Dry University Archive */
+        <div className="flex-1 flex flex-col bg-[#FDFDFD] text-[#333] font-serif overflow-y-auto">
+          <nav className="h-10 border-b border-gray-300 px-8 flex items-center justify-between bg-gray-100 text-[11px] uppercase tracking-widest font-sans text-gray-500">
+            <div>Educational Systems Gateway v12.4.1</div>
+            <div className="flex gap-4">
+              <span>Network Status: Stable</span>
+              <span>Regional Node: East-2</span>
             </div>
           </nav>
           
-          <main className="max-w-3xl mx-auto py-20 px-8 space-y-16">
-            <header className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-700">
-              <h1 className="text-4xl font-light text-slate-900 tracking-tight leading-tight">Research Frameworks: Historical & Modern Analysis</h1>
-              <p className="text-slate-500 font-sans text-xs uppercase tracking-widest">Digital Archive • Revised 2026</p>
+          <main className="max-w-4xl mx-auto py-24 px-12 space-y-20">
+            <header className="border-b-2 border-slate-900 pb-12">
+              <p className="text-[11px] uppercase tracking-[0.3em] text-blue-800 font-bold mb-4 font-sans">Official Record Repository</p>
+              <h1 className="text-5xl font-black text-slate-900 tracking-tight leading-none mb-6">Current Curriculum Management & Instructional Standards Archive</h1>
+              <p className="text-xl text-slate-500 italic max-w-2xl">A comprehensive digital index of regional teaching methodologies, behavioral standards, and administrative syllabi cycles for the 2026-2027 academic year.</p>
             </header>
 
-            <article className="prose prose-slate max-w-none space-y-8 text-lg leading-relaxed text-slate-600">
-              <p>This repository serves as a centralized index for historical research data and theoretical frameworks. Participation in these modules is reserved for students currently enrolled in advanced data analytics cycles.</p>
-
-              <div className="p-8 border border-slate-100 rounded-lg bg-slate-50/50 font-mono text-sm space-y-6 text-slate-700">
-                <div className="space-y-2">
-                  <span className="text-slate-400 text-xs block mb-1 font-sans font-bold uppercase tracking-wider">// Indexing Key</span>
-                  <div className="pl-4">{"DataID_044_819_581"}</div>
-                </div>
-                <div className="h-px bg-slate-200/50" />
-                <div className="space-y-2">
-                  <span className="text-slate-400 text-xs block mb-1 font-sans font-bold uppercase tracking-wider">// System Validation</span>
-                  <div className="pl-4">{"AUTH_LEVEL: RESEARCH_FACULTY"}</div>
-                </div>
+            <article className="grid grid-cols-1 md:grid-cols-3 gap-12 text-sm leading-relaxed text-slate-700">
+              <div className="md:col-span-2 space-y-8">
+                <section>
+                  <h2 className="text-xs uppercase tracking-widest font-black text-slate-400 mb-4 font-sans">I. System Overview</h2>
+                  <p>The System Standards Repository (SSR) is the primary distribution point for verified instructional data. This portal utilizes encrypted indexing to maintain the integrity of regional educational records and ensures that all participating faculty have access to real-time syllabus updates.</p>
+                </section>
+                <section>
+                  <h2 className="text-xs uppercase tracking-widest font-black text-slate-400 mb-4 font-sans">II. Resource Distribution</h2>
+                  <p>By accessing this repository, users acknowledge their responsibility to maintain data confidentiality. The instructional modules contained within are categorized by foundational difficulty and specialized technical focus. All modules have been vetted by the regional board for alignment with national proficiency goals.</p>
+                </section>
               </div>
-
-              <p>Users must authenticate via the Researcher access protocol to view restricted archival indices.</p>
+              <aside className="p-6 bg-slate-50 border border-slate-200 rounded-sm font-mono text-[11px] space-y-6">
+                <div>
+                  <span className="text-slate-400 block mb-1 uppercase font-bold tracking-tight">// Node Identifier</span>
+                  <div className="text-slate-900 truncate font-bold">ARC-SYS-044819581</div>
+                </div>
+                <div>
+                  <span className="text-slate-400 block mb-1 uppercase font-bold tracking-tight">// Access Protocol</span>
+                  <div className="text-slate-900 font-bold">Standard Administrative</div>
+                </div>
+                <div className="pt-4 border-t border-slate-200">
+                  <div className="text-slate-400 italic">"The advancement of knowledge is the primary objective of this administrative record."</div>
+                </div>
+              </aside>
             </article>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-8">
-              <div className="p-8 border border-slate-100 rounded-lg bg-white shadow-sm hover:shadow-md transition-shadow group">
-                <Calculator className="w-8 h-8 text-slate-300 mb-6 group-hover:text-amber-500 transition-colors" />
-                <h3 className="font-bold text-xs uppercase tracking-widest mb-3 font-sans text-slate-800">Branch II: Differential Modeling</h3>
-                <p className="text-sm text-slate-500 italic leading-relaxed">Understanding the relationships between physical quantities and their instantaneous rates of change.</p>
-              </div>
-              <div className="p-8 border border-slate-100 rounded-lg bg-white shadow-sm hover:shadow-md transition-shadow group">
-                <Sigma className="w-8 h-8 text-slate-300 mb-6 group-hover:text-blue-500 transition-colors" />
-                <h3 className="font-bold text-xs uppercase tracking-widest mb-3 font-sans text-slate-800">Branch III: Infinite Summation</h3>
-                <p className="text-sm text-slate-500 italic leading-relaxed">The systematic evaluation of series convergence within bounded and unbounded domains.</p>
-              </div>
+            <div className="pt-24 pb-12 border-t border-slate-200 flex flex-col items-center">
+              <p className="text-[10px] text-slate-400 font-sans tracking-[0.5em] mb-4">CONFIDENTIAL RECORD: 44-819-581</p>
+              <button 
+                onClick={() => setUnlockCount(prev => prev + 1)}
+                className="text-[10px] text-slate-300 font-sans hover:text-slate-400 transition-colors"
+                title="Legal Information"
+              >
+                © 2026 Board of Visual & Spatial Computation Management Systems • Policy 1.0.4
+              </button>
             </div>
-
-            <footer className="pt-24 pb-8 border-t border-slate-50 flex flex-col items-center gap-4">
-              <div className="text-[10px] text-slate-400 font-sans font-bold uppercase tracking-[0.4em]">Educational Resource ID: 44-819-581</div>
-              <p className="text-[10px] text-slate-300">Verified System Connectivity: Passive Monitoring Active</p>
-            </footer>
           </main>
         </div>
       ) : (
@@ -203,7 +310,7 @@ export default function App() {
                       `}
                     >
                       <div className={`w-1.5 h-1.5 rounded-full ${selectedCategory === cat ? 'bg-blue-600' : 'bg-transparent'}`} />
-                      {cat === "Global" ? "Main Catalog" : cat}
+                      {cat === "Global" ? "All Indices" : cat}
                     </li>
                   ))}
                 </ul>
@@ -325,14 +432,18 @@ export default function App() {
                     </header>
 
                     <div className="aspect-[16/9] bg-slate-900 rounded-3xl overflow-hidden shadow-2xl relative ring-8 ring-white">
-                      <iframe 
-                        src={activeModule.iframeUrl} 
-                        className="w-full h-full border-none bg-white"
-                        allowFullScreen
-                        allow="fullscreen; keyboard-attribute; gyroscope; accelerometer; mid; payment"
-                        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-presentation"
-                        title={activeModule.title}
-                      />
+                      {activeModule.isLocal ? (
+                        <SnakeGame />
+                      ) : (
+                        <iframe 
+                          src={activeModule.iframeUrl} 
+                          className="w-full h-full border-none bg-white"
+                          allowFullScreen
+                          allow="fullscreen; keyboard-attribute; gyroscope; accelerometer; mid; payment"
+                          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-presentation"
+                          title={activeModule.title}
+                        />
+                      )}
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pt-4">
