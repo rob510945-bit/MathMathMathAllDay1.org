@@ -1,5 +1,14 @@
 export const archiveData = [
   {
+    id: 'pk1',
+    title: 'Scientist Practice',
+    description: 'Empirical data analysis and experimental modeling for behavioral research.',
+    thumbnail: 'https://picsum.photos/seed/scientist/400/300?grayscale',
+    iframeUrl: 'https://geography-basic-5.live/',
+    category: 'Applied',
+    tags: ['empirical', 'experimental', 'modeling']
+  },
+  {
     id: 'fnf1',
     title: 'Singing Club',
     description: 'Vocal proficiency and rhythmic syntax assessment module.',
