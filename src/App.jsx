@@ -38,7 +38,10 @@ export default function App() {
         sessionStorage.setItem('portal_unlocked', 'true');
       } catch (err) {}
     } else if (unlockCount > 0) {
-      const timer = setTimeout(() => setUnlockCount(0), 1000);
+      const timer = setTimeout(() => {
+        setUnlockCount(0);
+        console.log("Unlock sequence timed out");
+      }, 3000); // Increased to 3 seconds for easier entry
       return () => clearTimeout(timer);
     }
   }, [unlockCount]);
