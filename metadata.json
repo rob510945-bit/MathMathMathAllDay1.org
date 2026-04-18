@@ -1,6 +1,6 @@
 {
-  "name": "Student Archive - Mathematics Resource",
-  "description": "An academic repository providing comprehensive reference materials for mathematics, calculus, and historical data analysis for student research.",
+  "name": "Research Archive - Course Repository",
+  "description": "A digital repository providing syllabus information, reference materials, and historical data analysis for research student use.",
   "requestFramePermissions": [],
   "majorCapabilities": []
 }

@@ -4,13 +4,14 @@
  */
 
 import { useState, useMemo, useEffect } from 'react';
-import { Search, LayoutGrid, X, Maximize2, Trophy, Zap, ChevronLeft, Menu, Calculator, Book, Sigma } from 'lucide-react';
+import { Search, LayoutGrid, X, Maximize2, Microscope, ArrowRight, ChevronLeft, Menu, Calculator, Book, Sigma } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import archiveData from './data/entries.json';
+import { getArchiveData } from './data/vault';
 
 const COLLECTIONS = ["Global", "Kinetic", "Logic", "Dynamic", "Heritage", "Theoretical"];
 
 export default function App() {
+  const archiveData = useMemo(() => getArchiveData(), []);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Global");
   const [activeModule, setActiveModule] = useState(null);
@@ -88,8 +89,8 @@ export default function App() {
           
           <main className="max-w-3xl mx-auto py-20 px-8 space-y-16">
             <header className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-700">
-              <h1 className="text-4xl font-light text-slate-900 tracking-tight leading-tight">Mathematics: Theoretical Frameworks & Analysis</h1>
-              <p className="text-slate-500 font-sans text-xs uppercase tracking-widest">Academic Press • Revised Edition 2026</p>
+              <h1 className="text-4xl font-light text-slate-900 tracking-tight leading-tight">Research Frameworks: Historical & Modern Analysis</h1>
+              <p className="text-slate-500 font-sans text-xs uppercase tracking-widest">Digital Archive • Revised 2026</p>
             </header>
 
             <article className="prose prose-slate max-w-none space-y-8 text-lg leading-relaxed text-slate-600">
@@ -130,7 +131,7 @@ export default function App() {
           </main>
         </div>
       ) : (
-        /* PORTAL UI: Gaming Hub (Unlocked) */
+        /* TERMINAL UI: Research Index (Unlocked) */
         <>
           <nav className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 sticky top-0 z-50">
             <div className="flex items-center gap-4">
@@ -171,11 +172,11 @@ export default function App() {
                 }}
                 className="text-[9px] text-slate-400 hover:text-red-500 uppercase font-bold tracking-[0.2em] px-3 py-1.5 border border-slate-100 rounded-full transition-all"
               >
-                Lock Portal
+                Restrict Access
               </button>
               <div className="hidden sm:flex items-center gap-4 text-sm font-bold text-slate-500">
-                <span className="cursor-pointer hover:text-blue-600">History</span>
-                <span className="cursor-pointer hover:text-blue-600">Profile</span>
+                <span className="cursor-pointer hover:text-blue-600">Revisions</span>
+                <span className="cursor-pointer hover:text-blue-600">Account</span>
               </div>
             </div>
           </nav>
@@ -208,14 +209,14 @@ export default function App() {
                 </ul>
 
                 <section className="mt-16 bg-slate-50 rounded-2xl p-5 border border-slate-100">
-                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Network Activity</div>
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Traffic Telemetry</div>
                   <div className="space-y-4">
                     <div className="flex justify-between items-end">
-                      <span className="text-[10px] text-slate-500 uppercase font-bold">Latency</span>
+                      <span className="text-[10px] text-slate-500 uppercase font-bold">Packet Delay</span>
                       <span className="text-xs font-black text-green-500">12ms</span>
                     </div>
                     <div className="flex justify-between items-end">
-                      <span className="text-[10px] text-slate-500 uppercase font-bold">Players</span>
+                      <span className="text-[10px] text-slate-500 uppercase font-bold">Active Nodes</span>
                       <span className="text-xs font-black text-slate-700">1,204</span>
                     </div>
                   </div>
@@ -273,7 +274,7 @@ export default function App() {
                                 <span className="px-2.5 py-1 bg-slate-100 text-slate-500 text-[10px] font-black uppercase rounded-lg tracking-widest group-hover:bg-blue-600 group-hover:text-white transition-colors">
                                   {entry.category}
                                 </span>
-                                <Zap className="w-4 h-4 text-slate-200 group-hover:text-blue-400 transition-colors" />
+                                <ArrowRight className="w-4 h-4 text-slate-200 group-hover:text-blue-400 transition-colors" />
                               </div>
                             </div>
                           </motion.div>
@@ -351,12 +352,12 @@ export default function App() {
                       <aside className="space-y-8">
                         <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm relative overflow-hidden group">
                           <div className="absolute top-0 right-0 p-4 opacity-5">
-                            <Trophy className="w-12 h-12 text-blue-600" />
+                            <Microscope className="w-12 h-12 text-blue-600" />
                           </div>
-                          <h5 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Service Status</h5>
+                          <h5 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Verification Layer</h5>
                           <div className="space-y-2">
-                            <div className="text-sm font-bold text-slate-800">System Nominal</div>
-                            <div className="text-[10px] text-slate-400 uppercase tracking-wider italic">Ranking sync active</div>
+                            <div className="text-sm font-bold text-slate-800">Operational Integrity</div>
+                            <div className="text-[10px] text-slate-400 uppercase tracking-wider italic">Index synchronization active</div>
                           </div>
                         </div>
                       </aside>
