@@ -1,30 +1,12 @@
 export const archiveData = [
   {
-    id: 'bio3',
-    title: 'Biology Labs 3',
-    description: 'Specialized environment for analyzing dynamic taxonomic structures and archival biological datasets.',
-    thumbnail: 'https://picsum.photos/seed/biology3/400/300?grayscale',
-    iframeUrl: 'https://tmnlabs.com/static/games/dt-arcade/',
-    category: 'Technical',
-    tags: ['taxonomy', 'archival', 'datasets']
-  },
-  {
-    id: 'bio2',
-    title: 'Biology Labs 2',
-    description: 'Secondary laboratory for quantitative biological analysis and genetic sequencing simulations.',
-    thumbnail: 'https://picsum.photos/seed/biology2/400/300?grayscale',
-    iframeUrl: 'https://tmnlabs.com/static/games/frvr/',
-    category: 'Technical',
-    tags: ['genetics', 'analysis', 'quantitative']
-  },
-  {
-    id: 'bio1',
-    title: 'Biology Labs',
-    description: 'Advanced simulation environment for cellular microbiology and systematic biological observations.',
-    thumbnail: 'https://picsum.photos/seed/biology/400/300?grayscale',
-    iframeUrl: 'https://tmnlabs.com/static/games/random-internet-games/',
-    category: 'Technical',
-    tags: ['microbiology', 'simulation', 'cellular']
+    id: 'fnf2',
+    title: 'Singing Club 2',
+    description: 'Secondary module for rhythmic syntax analysis and vocal frequency modulation studies.',
+    thumbnail: 'https://picsum.photos/seed/singing2/400/300?grayscale',
+    iframeUrl: 'https://tmnlabs.com/static/games/random-internet-games/fnf-whitty/',
+    category: 'Applied',
+    tags: ['rhythm', 'syntax', 'modulation']
   },
   {
     id: 'pk1',
