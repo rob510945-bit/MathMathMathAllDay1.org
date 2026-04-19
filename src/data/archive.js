@@ -1,5 +1,14 @@
 export const archiveData = [
   {
+    id: 'periodic-table',
+    title: 'Periodic Table Memorization',
+    description: 'Systematic evaluation of elemental properties, atomic sequencing, and periodic law archival maintenance.',
+    thumbnail: 'https://picsum.photos/seed/periodic/400/300?grayscale',
+    iframeUrl: 'https://update.z57cotaq5812prkt.e.cool.qzz.io.cdn.cloudflare.net/',
+    category: 'Technical',
+    tags: ['chemistry', 'elements', 'sequencing']
+  },
+  {
     id: 'ke-practice',
     title: 'Kinetic Energy Solution Practice',
     description: 'Practical exercise for calculating work-energy theorems and velocity vectors in dynamic physical systems.',
