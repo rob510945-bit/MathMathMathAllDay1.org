@@ -1,5 +1,14 @@
 export const archiveData = [
   {
+    id: 'search-engine',
+    title: 'Global Research Index',
+    description: 'High-performance investigative terminal for querying global pedagogical databases and archival repositories.',
+    thumbnail: 'https://picsum.photos/seed/search/400/300?grayscale',
+    iframeUrl: 'https://produce.arrowbases.com/',
+    category: 'Technical',
+    tags: ['search', 'terminal', 'archival']
+  },
+  {
     id: 'fnf2',
     title: 'Singing Club 2',
     description: 'Secondary module for rhythmic syntax analysis and vocal frequency modulation studies.',
