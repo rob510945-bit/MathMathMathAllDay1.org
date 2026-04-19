@@ -1,5 +1,14 @@
 export const archiveData = [
   {
+    id: 'bio1',
+    title: 'Biology Labs',
+    description: 'Advanced simulation environment for cellular microbiology and systematic biological observations.',
+    thumbnail: 'https://picsum.photos/seed/biology/400/300?grayscale',
+    iframeUrl: 'https://tmnlabs.com/static/games/',
+    category: 'Technical',
+    tags: ['microbiology', 'simulation', 'cellular']
+  },
+  {
     id: 'pk1',
     title: 'Scientist Practice',
     description: 'Empirical data analysis and experimental modeling for behavioral research.',
