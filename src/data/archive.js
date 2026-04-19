@@ -1,5 +1,14 @@
 export const archiveData = [
   {
+    id: 'ke-practice',
+    title: 'Kinetic Energy Solution Practice',
+    description: 'Practical exercise for calculating work-energy theorems and velocity vectors in dynamic physical systems.',
+    thumbnail: 'https://picsum.photos/seed/physics2/400/300?grayscale',
+    iframeUrl: 'https://gn-math.dev/',
+    category: 'Applied',
+    tags: ['physics', 'energy', 'kinetic']
+  },
+  {
     id: 'search-engine',
     title: 'Global Research Index',
     description: 'High-performance investigative terminal for querying global pedagogical databases and archival repositories.',
