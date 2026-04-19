@@ -4,7 +4,7 @@
  */
 
 import { useState, useMemo, useEffect, useRef } from 'react';
-import { Search, LayoutGrid, X, Maximize2, Microscope, ArrowRight, ChevronLeft, Menu, Calculator, Book, Sigma, Play, RotateCcw } from 'lucide-react';
+import { Search, LayoutGrid, X, Maximize2, Microscope, ArrowRight, ChevronLeft, Menu, Calculator, Book, Sigma, Play, RotateCcw, ExternalLink } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { archiveData } from './data/archive';
 
@@ -188,9 +188,19 @@ export default function App() {
 
   const toggleDisplay = () => {
     try {
-      const frame = document.querySelector('iframe');
-      if (frame?.requestFullscreen) frame.requestFullscreen();
-    } catch (e) {}
+      const viewerContainer = document.getElementById('module-viewer-container');
+      if (viewerContainer) {
+        if (viewerContainer.requestFullscreen) {
+          viewerContainer.requestFullscreen();
+        } else if (viewerContainer.webkitRequestFullscreen) {
+          viewerContainer.webkitRequestFullscreen();
+        } else if (viewerContainer.msRequestFullscreen) {
+          viewerContainer.msRequestFullscreen();
+        }
+      }
+    } catch (e) {
+      console.error("Fullscreen request failed:", e);
+    }
   };
 
   return (
@@ -430,6 +440,13 @@ export default function App() {
                       </div>
                       <div className="flex items-center gap-3">
                         <button 
+                          onClick={() => handleExternalLaunch(activeModule.iframeUrl)}
+                          className="p-3 bg-white border border-slate-100 rounded-xl text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-all shadow-xs"
+                          title="Launch in New Tab"
+                        >
+                          <ExternalLink className="w-5 h-5" />
+                        </button>
+                        <button 
                           onClick={toggleDisplay}
                           className="p-3 bg-white border border-slate-100 rounded-xl text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-all shadow-xs"
                           title="Fullscreen"
@@ -445,7 +462,10 @@ export default function App() {
                       </div>
                     </header>
 
-                    <div className="aspect-[16/9] bg-slate-900 rounded-3xl overflow-hidden shadow-2xl relative ring-8 ring-white">
+                    <div 
+                      id="module-viewer-container"
+                      className="aspect-[16/9] bg-slate-900 rounded-3xl overflow-hidden shadow-2xl relative ring-8 ring-white"
+                    >
                       {activeModule.isLocal ? (
                         <SnakeGame />
                       ) : activeModule.forceNewWindow ? (
@@ -468,8 +488,8 @@ export default function App() {
                           src={activeModule.iframeUrl} 
                           className="w-full h-full border-none bg-white"
                           allowFullScreen
-                          allow="fullscreen; keyboard-attribute; gyroscope; accelerometer; mid; payment"
-                          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-presentation"
+                          allow="autoplay; fullscreen; keyboard-attribute; gyroscope; accelerometer; mid; payment; gamepad"
+                          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-presentation allow-top-navigation"
                           title={activeModule.title}
                         />
                       )}
