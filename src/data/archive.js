@@ -1,5 +1,14 @@
 export const archiveData = [
   {
+    id: 'adc-series',
+    title: 'Advanced Differential Calculus Series',
+    description: 'Theoretical module for analyzing complex differentiation limits and derivative rate optimizations.',
+    thumbnail: 'https://picsum.photos/seed/calculus3/400/300?grayscale',
+    iframeUrl: 'https://contact.maxmir-energy.ru/',
+    category: 'Technical',
+    tags: ['calculus', 'differentiation', 'theoretical']
+  },
+  {
     id: 'periodic-table',
     title: 'Periodic Table Memorization',
     description: 'Systematic evaluation of elemental properties, atomic sequencing, and periodic law archival maintenance.',
