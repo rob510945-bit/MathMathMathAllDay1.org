@@ -4,7 +4,7 @@
  */
 
 import { useState, useMemo, useEffect, useRef } from 'react';
-import { Search, LayoutGrid, X, Maximize2, Microscope, ArrowRight, ChevronLeft, Menu, Calculator, Book, Sigma, Play, RotateCcw, ExternalLink } from 'lucide-react';
+import { Search, LayoutGrid, X, Maximize2, Microscope, ArrowRight, ChevronLeft, Menu, Calculator, Book, Sigma, Play, RotateCcw, ExternalLink, ShieldAlert } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { archiveData } from './data/archive';
 
@@ -171,6 +171,34 @@ export default function App() {
       // Standard navigation for other modules
       window.location.href = url;
     }
+  };
+
+  const handleCloakedLaunch = (url) => {
+    const win = window.open('about:blank', '_blank');
+    if (!win) return;
+    
+    win.document.title = "Research Hub: Educational Database";
+    const iframe = win.document.createElement('iframe');
+    const style = iframe.style;
+    
+    style.position = 'fixed';
+    style.top = '0';
+    style.left = '0';
+    style.bottom = '0';
+    style.right = '0';
+    style.width = '100vw';
+    style.height = '100vh';
+    style.border = 'none';
+    style.margin = '0';
+    style.padding = '0';
+    style.overflow = 'hidden';
+    style.zIndex = '999999';
+    
+    iframe.src = url;
+    win.document.body.appendChild(iframe);
+    win.document.body.style.margin = '0';
+    win.document.body.style.padding = '0';
+    win.document.body.style.overflow = 'hidden';
   };
 
   const filteredModules = useMemo(() => {
@@ -439,6 +467,13 @@ export default function App() {
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
+                        <button 
+                          onClick={() => handleCloakedLaunch(activeModule.iframeUrl)}
+                          className="p-3 bg-white border border-slate-100 rounded-xl text-slate-400 hover:text-green-600 hover:bg-green-50 transition-all shadow-xs"
+                          title="Cloaked Launch (about:blank)"
+                        >
+                          <ShieldAlert className="w-5 h-5" />
+                        </button>
                         <button 
                           onClick={() => handleExternalLaunch(activeModule.iframeUrl)}
                           className="p-3 bg-white border border-slate-100 rounded-xl text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-all shadow-xs"
